@@ -1,4 +1,10 @@
 -- Made by FAXES
+AddEventHandler('onResourceStart', function(resource)
+	Citizen.Wait(15000)
+	SetMapName("RP : Not Set")
+	CancelEvent()
+end)
+
 AddEventHandler('chatMessage', function(player, playerName, message)
     if message:sub(1) == '/aoplist' then
 		if IsPlayerAceAllowed(player, "fax.cmds") then
