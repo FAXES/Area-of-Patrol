@@ -1,6 +1,12 @@
 ----------------------------------
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
+
+--- CONFIG AREA ---
+vote = true				-- Enables the vote command for AOP
+peacetime = true		-- Enables the peacetime commands for AOP
+
+--- CODE SPACE DON'T TOUCH ---
 AddEventHandler('onResourceStart', function(resource)
 	Citizen.Wait(15000)
 	SetMapName("RP : Not Set")
@@ -137,28 +143,34 @@ AddEventHandler('chatMessage', function(source, playerName, message)
   	end)
 	-- AOP Command for Peace Time on
 	RegisterCommand("pton", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
-			SetGameType("Peace Time In Effect")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
+		if peacetime == true then
+			if IsPlayerAceAllowed(source, "fax.cmds") then
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
+				SetGameType("Peace Time In Effect")
+			else
+				TriggerClientEvent('AOP:NoPerms', source)
+			end
 		end
   	end)
 	-- AOP Command for Peace Time off
-  	RegisterCommand("ptoff", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
-			SetGameType("Freeroam")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
+	  RegisterCommand("ptoff", function()
+		if peacetime == true then
+			if IsPlayerAceAllowed(source, "fax.cmds") then
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
+				SetGameType("Freeroam")
+			else
+				TriggerClientEvent('AOP:NoPerms', source)
+			end
 		end
   	end)
 	-- AOP Command for Vote
-  	RegisterCommand("aopvote", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Comment a RP area you want!  \n ——————————————————————", {239, 0, 0})
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
+	  RegisterCommand("aopvote", function()
+		if vote == true then
+			if IsPlayerAceAllowed(source, "fax.cmds") then
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Comment a RP area you want!  \n ——————————————————————", {239, 0, 0})
+			else
+				TriggerClientEvent('AOP:NoPerms', source)
+			end
 		end
   	end)
 end)

@@ -1,7 +1,7 @@
 # Area-of-Patrol
 
 About
-This is a simple script that will set a RP area when a command is entered. Currently there is a ace permission system with it, read the Wiki for set up.
+This is a simple script that will set a RP area when a command is entered (see image). Note this script is not yet 100% finished. Currently there is no permission system with it but I will add soon.
 
 Usage / Common Commands
 /aoplist - Displays a list of all the scripts commands
