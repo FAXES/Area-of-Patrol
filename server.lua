@@ -7,140 +7,45 @@ vote = true				-- Enables the vote command for AOP
 peacetime = true		-- Enables the peacetime commands for AOP
 
 --- CODE SPACE DON'T TOUCH ---
+
+FaxCurAOP = "none"
+FaxCurAOP2 = "Set"
+Faxvotestatus = false
+
 AddEventHandler('onResourceStart', function(resource)
 	Citizen.Wait(15000)
 	SetMapName("RP : Not Set")
 	CancelEvent()
 end)
 
+AddEventHandler('chatMessage', function(source, name, msg)
+	local args = stringsplit(msg, " ")
+	if args[1] == "/aop" then
+		if IsPlayerAceAllowed(source, "fax.cmds") then
+			if tablelength(args) > 2 then
+			CancelEvent()
+			FaxCurAOP = args[2]
+			FaxCurAOP2 = args[3]
+			TriggerEvent('AOP:Sync')
+			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
+			SetMapName("RP : " .. FaxCurAOP .. " " .. FaxCurAOP2)
+			else
+				TriggerClientEvent("chatMessage", source, "Invalid Input, Use 2 Words (Eg; Sandy Shores)")
+			end
+		else
+			TriggerClientEvent('AOP:NoPerms', source)
+		end
+	end
+end)
+
+
+RegisterServerEvent('AOP:Sync')
+AddEventHandler('AOP:Sync', function()
+	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP, FaxCurAOP2)
+end)
+
+
 AddEventHandler('chatMessage', function(source, playerName, message)
-	-- AOP Command for displaying the AOP commands list
-	RegisterCommand("aoplist", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent('AOP:List', source)
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-
-	-- AOP Command for Blaine County
-  	RegisterCommand("aopbc", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : BLAINE COUNTY \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Blaine County")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-
-	-- AOP Command for State Wide
-  	RegisterCommand("aopstate", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : STATEWIDE \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : State Wide")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Los Santos
-	RegisterCommand("aopls", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : LOS SANTOS \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Los Santos")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Vinewood
-  	RegisterCommand("aopvw", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : VINEWOOD \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : VineWood")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Mirror Park
-  	RegisterCommand("aopmp", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : MIRROR PARK \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Mirror Park")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Down Town
-	RegisterCommand("aopdt", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : DOWNTOWN LS \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Downtown Los Santos")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Davis
-  	RegisterCommand("aopdavis", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : DAVIS / STRAWBERRY \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Davis")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Del Perro
-	RegisterCommand("aopdp", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : DEL PERRO \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Del Perro")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Rockford Hills
-  	RegisterCommand("aoprh", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : ROCKFORD HILLS \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Rockford Hills")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Sandy
-	RegisterCommand("aopsandy", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : SANDY SHORES \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Sandy Shores")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Harmony
-  	RegisterCommand("aopharm", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : HARMONY \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Harmony")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Grapeseed
-  	RegisterCommand("aopgrape", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : GRAPESEED \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Grape Seed")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
-	-- AOP Command for Peleto Bay
-  	RegisterCommand("aoppb", function()
-		if IsPlayerAceAllowed(source, "fax.cmds") then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : PALETO BAY \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : Paleto Bay")
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
-  	end)
 	-- AOP Command for Peace Time on
 	RegisterCommand("pton", function()
 		if peacetime == true then
@@ -164,13 +69,50 @@ AddEventHandler('chatMessage', function(source, playerName, message)
 		end
   	end)
 	-- AOP Command for Vote
-	  RegisterCommand("aopvote", function()
+	RegisterCommand("aopvote", function()
 		if vote == true then
 			if IsPlayerAceAllowed(source, "fax.cmds") then
-				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Comment a RP area you want!  \n ——————————————————————", {239, 0, 0})
+				Faxvotestatus = true
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
+				Wait(120000)
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. 1 Minute Remaining.  \n ——————————————————————", {239, 0, 0})
+				Wait(60000)
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Has Ended. Please Wait For Change.  \n ——————————————————————", {239, 0, 0})
+				Faxvotestatus = false
 			else
 				TriggerClientEvent('AOP:NoPerms', source)
 			end
 		end
-  	end)
+	end)
 end)
+
+AddEventHandler('chatMessage', function(source, name, msg)
+	-- Vote Types
+	sm = stringsplit(msg, " ");
+	if sm[1] == "/vote" then
+		if Faxvotestatus == true then
+		CancelEvent()
+		TriggerClientEvent('chatMessage', -1, "^5" .. name .. " ^4Has Voted For: ^7" .. string.sub(msg,6))
+		else
+			TriggerClientEvent('AOP:NoVote', source)
+		end
+	end
+end)
+
+function stringsplit(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={} ; i=1
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        t[i] = str
+        i = i + 1
+    end
+    return t
+end
+
+function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
