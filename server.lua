@@ -8,7 +8,7 @@ peacetime = true		-- Enables the peacetime commands for AOP
 
 --- CODE SPACE DON'T TOUCH ---
 
-FaxCurAOP = "none"
+FaxCurAOP = "None"
 FaxCurAOP2 = "Set"
 Faxvotestatus = false
 
@@ -21,7 +21,7 @@ end)
 AddEventHandler('chatMessage', function(source, name, msg)
 	local args = stringsplit(msg, " ")
 	if args[1] == "/aop" then
-		if IsPlayerAceAllowed(source, "fax.cmds") then
+		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
 			if tablelength(args) > 2 then
 			CancelEvent()
 			FaxCurAOP = args[2]
@@ -45,33 +45,39 @@ AddEventHandler('AOP:Sync', function()
 end)
 
 
-AddEventHandler('chatMessage', function(source, playerName, message)
+AddEventHandler('chatMessage', function(source, name, msg)
 	-- AOP Command for Peace Time on
-	RegisterCommand("pton", function()
+	local args = stringsplit(msg, " ")
+	if args[1] == "/pton" then
 		if peacetime == true then
-			if IsPlayerAceAllowed(source, "fax.cmds") then
+			if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+				CancelEvent()
+				TriggerClientEvent('AOP:SendPeaceTrue', -1)
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
 				SetGameType("Peace Time In Effect")
 			else
 				TriggerClientEvent('AOP:NoPerms', source)
 			end
 		end
-  	end)
+  	end
 	-- AOP Command for Peace Time off
-	  RegisterCommand("ptoff", function()
+	local args = stringsplit(msg, " ")
+	if args[1] == "/ptoff" then
 		if peacetime == true then
-			if IsPlayerAceAllowed(source, "fax.cmds") then
+			if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+				CancelEvent()
+				TriggerClientEvent('AOP:SendPeaceFalse', -1)
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
 				SetGameType("Freeroam")
 			else
 				TriggerClientEvent('AOP:NoPerms', source)
 			end
 		end
-  	end)
+  	end
 	-- AOP Command for Vote
 	RegisterCommand("aopvote", function()
 		if vote == true then
-			if IsPlayerAceAllowed(source, "fax.cmds") then
+			if IsPlayerAceAllowed(source, "faxes.aopcmds") then
 				Faxvotestatus = true
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
 				Wait(120000)
