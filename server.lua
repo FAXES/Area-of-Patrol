@@ -11,12 +11,9 @@ peacetime = true		-- Enables the peacetime commands for AOP
 FaxCurAOP = "None"
 FaxCurAOP2 = "Set"
 Faxvotestatus = false
+FaxCurPT = false
 
-AddEventHandler('onResourceStart', function(resource)
-	Citizen.Wait(15000)
-	SetMapName("RP : Not Set")
-	CancelEvent()
-end)
+SetMapName("RP : Not Set")
 
 AddEventHandler('chatMessage', function(source, name, msg)
 	local args = stringsplit(msg, " ")
@@ -54,7 +51,8 @@ AddEventHandler('chatMessage', function(source, name, msg)
 				CancelEvent()
 				TriggerClientEvent('AOP:SendPeaceTrue', -1)
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
-				SetGameType("Peace Time In Effect")
+				FaxCurPT = true
+				TriggerEvent('AOP:PTSync')
 			else
 				TriggerClientEvent('AOP:NoPerms', source)
 			end
@@ -68,7 +66,8 @@ AddEventHandler('chatMessage', function(source, name, msg)
 				CancelEvent()
 				TriggerClientEvent('AOP:SendPeaceFalse', -1)
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
-				SetGameType("Freeroam")
+				FaxCurPT = false
+				TriggerEvent('AOP:PTSync')
 			else
 				TriggerClientEvent('AOP:NoPerms', source)
 			end
@@ -90,6 +89,11 @@ AddEventHandler('chatMessage', function(source, name, msg)
 			end
 		end
 	end)
+end)
+
+RegisterServerEvent('AOP:PTSync')
+AddEventHandler('AOP:PTSync', function()
+	TriggerClientEvent('AOP:SendPT', -1, FaxCurPT)
 end)
 
 AddEventHandler('chatMessage', function(source, name, msg)
