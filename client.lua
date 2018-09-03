@@ -1,9 +1,10 @@
 ----------------------------------
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
-AddEventHandler('playerSpawned', function()
+AddEventHandler('onClientMapStart', function()
     TriggerServerEvent('AOP:Sync')
     TriggerServerEvent('AOP:PTSync')
+    TriggerEvent('AOP:JoinMsg')
 end)
 
 
@@ -47,6 +48,11 @@ Citizen.CreateThread(function()
             DrawText2(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
         end
 	end
+end)
+
+RegisterNetEvent('AOP:JoinMsg')
+AddEventHandler('AOP:JoinMsg', function()
+    TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n ——————————————————————", {145, 145, 145})
 end)
 
 function DrawText2(x,y ,width,height,scale, text, r,g,b,a)

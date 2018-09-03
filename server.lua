@@ -13,7 +13,13 @@ FaxCurAOP2 = "Set"
 Faxvotestatus = false
 FaxCurPT = false
 
-SetMapName("RP : Not Set")
+RegisterServerEvent('SetMap')
+AddEventHandler('SetMap', function()
+	Wait(15000)
+	SetMapName("RP : Not Set")
+end)
+
+TriggerEvent("SetMap")
 
 AddEventHandler('chatMessage', function(source, name, msg)
 	local args = stringsplit(msg, " ")
@@ -41,38 +47,28 @@ AddEventHandler('AOP:Sync', function()
 	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP, FaxCurAOP2)
 end)
 
+RegisterCommand("pt", function(source, args, rawCommand)
+	if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+		if FaxCurPT == false then
+			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
+			FaxCurPT = true
+			TriggerEvent('AOP:PTSync')
+		elseif FaxCurPT == true then
+			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
+			FaxCurPT = false
+			TriggerEvent('AOP:PTSync')
+		end
+	else
+		TriggerClientEvent('AOP:NoPerms', source)
+	end
+end)
+
+RegisterServerEvent('AOP:PTSync')
+AddEventHandler('AOP:PTSync', function()
+	TriggerClientEvent('AOP:SendPT', -1, FaxCurPT)
+end)
 
 AddEventHandler('chatMessage', function(source, name, msg)
-	-- AOP Command for Peace Time on
-	local args = stringsplit(msg, " ")
-	if args[1] == "/pton" then
-		if peacetime == true then
-			if IsPlayerAceAllowed(source, "faxes.aopcmds") then
-				CancelEvent()
-				TriggerClientEvent('AOP:SendPeaceTrue', -1)
-				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
-				FaxCurPT = true
-				TriggerEvent('AOP:PTSync')
-			else
-				TriggerClientEvent('AOP:NoPerms', source)
-			end
-		end
-  	end
-	-- AOP Command for Peace Time off
-	local args = stringsplit(msg, " ")
-	if args[1] == "/ptoff" then
-		if peacetime == true then
-			if IsPlayerAceAllowed(source, "faxes.aopcmds") then
-				CancelEvent()
-				TriggerClientEvent('AOP:SendPeaceFalse', -1)
-				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
-				FaxCurPT = false
-				TriggerEvent('AOP:PTSync')
-			else
-				TriggerClientEvent('AOP:NoPerms', source)
-			end
-		end
-  	end
 	-- AOP Command for Vote
 	RegisterCommand("aopvote", function()
 		if vote == true then
@@ -89,11 +85,6 @@ AddEventHandler('chatMessage', function(source, name, msg)
 			end
 		end
 	end)
-end)
-
-RegisterServerEvent('AOP:PTSync')
-AddEventHandler('AOP:PTSync', function()
-	TriggerClientEvent('AOP:SendPT', -1, FaxCurPT)
 end)
 
 AddEventHandler('chatMessage', function(source, name, msg)
