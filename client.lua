@@ -52,6 +52,7 @@ end)
 
 RegisterNetEvent('AOP:JoinMsg')
 AddEventHandler('AOP:JoinMsg', function()
+    Wait(1000)
     TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n ——————————————————————", {145, 145, 145})
 end)
 
