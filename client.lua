@@ -18,6 +18,11 @@ AddEventHandler('AOP:NoVote', function()
     TriggerEvent("chatMessage", "AOP Script", {255, 0, 0}, "AOP Vote Is Currently Not Active.")
 end)
 
+RegisterNetEvent('AOP:PTSound')
+AddEventHandler('AOP:PTSound', function()
+    PlaySoundFrontend(-1,"CONFIRM_BEEP", "HUD_MINI_GAME_SOUNDSET",1)
+end)
+
 
 FaxCurAOP = "None"
 FaxCurAOP2 = "Set"
@@ -40,12 +45,19 @@ Citizen.CreateThread(function()
     while true do
     year, month, day, hour, minute, second = GetLocalTime()
         Citizen.Wait(1)
+        local player = GetPlayerPed(-1)
         if peacetimeActive == true then
-            DrawText2(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawText2(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
+            -- DisableControlAction(2, 37, true) -- tab
+            if IsControlPressed(0, 106) then
+                ShowInfo("~r~Peacetime is enabled. ~n~~s~You can not shoot.")
+            end
+		    DisablePlayerFiring(player, true)
+            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
+            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
         elseif peacetimeActive == false then
-            DrawText2(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawText2(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
+            EnableControlAction(2, 37, true) -- tab
+            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
+            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
         end
 	end
 end)
@@ -56,7 +68,7 @@ AddEventHandler('AOP:JoinMsg', function()
     TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n ——————————————————————", {145, 145, 145})
 end)
 
-function DrawText2(x,y ,width,height,scale, text, r,g,b,a)
+function DrawTextAOP(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(4)
     SetTextProportional(0)
     SetTextScale(scale, scale)
@@ -68,4 +80,10 @@ function DrawText2(x,y ,width,height,scale, text, r,g,b,a)
     SetTextEntry("STRING")
     AddTextComponentString(text)
     DrawText(x - width/2, y - height/2 + 0.005)
+end
+
+function ShowInfo(text)
+	SetNotificationTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawNotification(true, false)
 end

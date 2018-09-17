@@ -51,6 +51,7 @@ RegisterCommand("pt", function(source, args, rawCommand)
 	if IsPlayerAceAllowed(source, "faxes.aopcmds") then
 		if FaxCurPT == false then
 			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
+			TriggerClientEvent("AOP:PTSound", -1)
 			FaxCurPT = true
 			TriggerEvent('AOP:PTSync')
 		elseif FaxCurPT == true then
