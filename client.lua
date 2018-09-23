@@ -25,13 +25,11 @@ end)
 
 
 FaxCurAOP = "None"
-FaxCurAOP2 = "Set"
 peacetimeActive = false
 
 RegisterNetEvent('AOP:SendAOP')
-AddEventHandler('AOP:SendAOP', function(newCurAOP, newCurAOP2)
+AddEventHandler('AOP:SendAOP', function(newCurAOP)
     FaxCurAOP = newCurAOP
-	FaxCurAOP2 = newCurAOP2
 end)
     
 RegisterNetEvent('AOP:SendPT')
@@ -43,7 +41,7 @@ local year, month, day, hour, minute, second = GetLocalTime()
 
 Citizen.CreateThread(function()
     while true do
-    year, month, day, hour, minute, second = GetLocalTime()
+    	year, month, day, hour, minute, second = GetLocalTime()
         Citizen.Wait(1)
         local player = GetPlayerPed(-1)
         if peacetimeActive == true then
@@ -51,21 +49,21 @@ Citizen.CreateThread(function()
             if IsControlPressed(0, 106) then
                 ShowInfo("~r~Peacetime is enabled. ~n~~s~You can not shoot.")
             end
-		    DisablePlayerFiring(player, true)
+	    DisablePlayerFiring(player, true)
             DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
+            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~"..FaxCurAOP.." ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
         elseif peacetimeActive == false then
             EnableControlAction(2, 37, true) -- tab
             DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
+            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~"..FaxCurAOP.." ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
         end
-	end
+    end
 end)
 
 RegisterNetEvent('AOP:JoinMsg')
 AddEventHandler('AOP:JoinMsg', function()
     Wait(1000)
-    TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n ——————————————————————", {145, 145, 145})
+    TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .." \n ——————————————————————", {145, 145, 145})
 end)
 
 function DrawTextAOP(x,y ,width,height,scale, text, r,g,b,a)

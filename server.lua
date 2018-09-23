@@ -9,7 +9,6 @@ peacetime = true		-- Enables the peacetime commands for AOP
 --- CODE SPACE DON'T TOUCH ---
 
 FaxCurAOP = "None"
-FaxCurAOP2 = "Set"
 Faxvotestatus = false
 FaxCurPT = false
 
@@ -21,30 +20,20 @@ end)
 
 TriggerEvent("SetMap")
 
-AddEventHandler('chatMessage', function(source, name, msg)
-	local args = stringsplit(msg, " ")
-	if args[1] == "/aop" then
-		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
-			if tablelength(args) > 2 then
-			CancelEvent()
-			FaxCurAOP = args[2]
-			FaxCurAOP2 = args[3]
-			TriggerEvent('AOP:Sync')
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : " .. FaxCurAOP .. " " .. FaxCurAOP2)
-			else
-				TriggerClientEvent("chatMessage", source, "Invalid Input, Use 2 Words (Eg; Sandy Shores)")
-			end
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
+RegisterCommand("aop", function(source,args,raw)
+	if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+		local NewAop = table.concat(args, " ")
+		TriggerEvent("AOP:Sync")
+		TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : "..FaxCurAOP.." \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
+		SetMapName("RP : "..FaxCurAOP)
+	else
+		TriggerClientEvent('AOP:NoPerms', source)
 	end
-end)
-
+end, false)
 
 RegisterServerEvent('AOP:Sync')
 AddEventHandler('AOP:Sync', function()
-	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP, FaxCurAOP2)
+	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP)
 end)
 
 RegisterCommand("pt", function(source, args, rawCommand)
