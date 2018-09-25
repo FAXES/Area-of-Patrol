@@ -2,14 +2,6 @@
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
 
---- CONFIG AREA ---
-vote = true				-- Enables the vote command for AOP
-peacetime = true		-- Enables the peacetime commands for AOP
-
---- CODE SPACE DON'T TOUCH ---
-
-FaxCurAOP = "None"
-FaxCurAOP2 = "Set"
 Faxvotestatus = false
 FaxCurPT = false
 
@@ -48,19 +40,21 @@ AddEventHandler('AOP:Sync', function()
 end)
 
 RegisterCommand("pt", function(source, args, rawCommand)
-	if IsPlayerAceAllowed(source, "faxes.aopcmds") then
-		if FaxCurPT == false then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
-			TriggerClientEvent("AOP:PTSound", -1)
-			FaxCurPT = true
-			TriggerEvent('AOP:PTSync')
-		elseif FaxCurPT == true then
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
-			FaxCurPT = false
-			TriggerEvent('AOP:PTSync')
+	if peacetime then
+		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+			if not FaxCurPT then
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
+				TriggerClientEvent("AOP:PTSound", -1)
+				FaxCurPT = true
+				TriggerEvent('AOP:PTSync')
+			elseif FaxCurPT then
+				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————", {239, 0, 0})
+				FaxCurPT = false
+				TriggerEvent('AOP:PTSync')
+			end
+		else
+			TriggerClientEvent('AOP:NoPerms', source)
 		end
-	else
-		TriggerClientEvent('AOP:NoPerms', source)
 	end
 end)
 
@@ -69,30 +63,28 @@ AddEventHandler('AOP:PTSync', function()
 	TriggerClientEvent('AOP:SendPT', -1, FaxCurPT)
 end)
 
-AddEventHandler('chatMessage', function(source, name, msg)
-	-- AOP Command for Vote
-	RegisterCommand("aopvote", function()
-		if vote == true then
-			if IsPlayerAceAllowed(source, "faxes.aopcmds") then
-				Faxvotestatus = true
-				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
-				Wait(120000)
-				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. 1 Minute Remaining.  \n ——————————————————————", {239, 0, 0})
-				Wait(60000)
-				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Has Ended. Please Wait For Change.  \n ——————————————————————", {239, 0, 0})
-				Faxvotestatus = false
-			else
-				TriggerClientEvent('AOP:NoPerms', source)
-			end
+-- AOP Command for Vote
+RegisterCommand("aopvote", function(source, args, rawCommand)
+	if vote then
+		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+			Faxvotestatus = true
+			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
+			Wait(120000)
+			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. 1 Minute Remaining.  \n ——————————————————————", {239, 0, 0})
+			Wait(60000)
+			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Has Ended. Please Wait For Change.  \n ——————————————————————", {239, 0, 0})
+			Faxvotestatus = false
+		else
+			TriggerClientEvent('AOP:NoPerms', source)
 		end
-	end)
+	end
 end)
 
 AddEventHandler('chatMessage', function(source, name, msg)
 	-- Vote Types
 	sm = stringsplit(msg, " ");
 	if sm[1] == "/vote" then
-		if Faxvotestatus == true then
+		if Faxvotestatus then
 		CancelEvent()
 		TriggerClientEvent('chatMessage', -1, "^5" .. name .. " ^4Has Voted For: ^7" .. string.sub(msg,6))
 		else

@@ -24,8 +24,6 @@ AddEventHandler('AOP:PTSound', function()
 end)
 
 
-FaxCurAOP = "None"
-FaxCurAOP2 = "Set"
 peacetimeActive = false
 
 RegisterNetEvent('AOP:SendAOP')
@@ -46,17 +44,26 @@ Citizen.CreateThread(function()
     year, month, day, hour, minute, second = GetLocalTime()
         Citizen.Wait(1)
         local player = GetPlayerPed(-1)
-        if peacetimeActive == true then
-            -- DisableControlAction(2, 37, true) -- tab
-            if IsControlPressed(0, 106) then
-                ShowInfo("~r~Peacetime is enabled. ~n~~s~You can not shoot.")
+
+        local newMinute = minute
+        if minute < 10 then
+            newMinute = "0" .. minute
+        end
+
+        if peacetimeActive then
+            if peacetimeNS then
+                -- DisableControlAction(2, 37, true) -- tab
+                if IsControlPressed(0, 106) then
+                    ShowInfo("~r~Peacetime is enabled. ~n~~s~You can not shoot.")
+                end
+                DisablePlayerFiring(player, true)
             end
-		    DisablePlayerFiring(player, true)
-            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
+
+            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
             DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
-        elseif peacetimeActive == false then
+        elseif not peacetimeActive then
             EnableControlAction(2, 37, true) -- tab
-            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. minute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
+            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
             DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
         end
 	end
