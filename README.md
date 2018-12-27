@@ -7,7 +7,7 @@ Usage / Common Commands
 - /pt - Toggle On / Off Peace time
 - /aopvote - Sends a message for players to vote for a RP area. Note; this is not recorded its just a message output
 - /vote [Some Place] - Vote when a vote is active
-/aop [Some] [Place] - Set the Area of Patrol
+/aop [Some Place] - Set the Area of Patrol
 
 Requirements
 None this is a standalone script as with all my resources.

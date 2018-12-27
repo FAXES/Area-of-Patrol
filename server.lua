@@ -2,46 +2,42 @@
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
 
+cooldown = 0
 Faxvotestatus = false
 FaxCurPT = false
 
-RegisterServerEvent('SetMap')
-AddEventHandler('SetMap', function()
-	Wait(15000)
-	SetMapName("RP : Not Set")
+RegisterServerEvent('AOP:Startup')
+AddEventHandler('AOP:Startup', function()
+	print("--- AOP Script Started! ---")
+	Wait(3000)
+	TriggerClientEvent("AOP:RunConfig", -1)
+	TriggerClientEvent("AOP:JoinMsg", -1)
+	Wait(30000)
+	SetMapName("RP : " .. FaxCurAOP)
 end)
 
-TriggerEvent("SetMap")
+TriggerEvent("AOP:Startup")
 
-AddEventHandler('chatMessage', function(source, name, msg)
-	local args = stringsplit(msg, " ")
-	if args[1] == "/aop" then
-		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
-			if tablelength(args) > 2 then
-			CancelEvent()
-			FaxCurAOP = args[2]
-			FaxCurAOP2 = args[3]
-			TriggerEvent('AOP:Sync')
-			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
-			SetMapName("RP : " .. FaxCurAOP .. " " .. FaxCurAOP2)
-			else
-				TriggerClientEvent("chatMessage", source, "Invalid Input, Use 2 Words (Eg; Sandy Shores)")
-			end
-		else
-			TriggerClientEvent('AOP:NoPerms', source)
-		end
+RegisterCommand("aop", function(source, args, raw)
+	if IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		FaxCurAOP = table.concat(args, " ")
+		TriggerEvent("AOP:Sync")
+		TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : ".. FaxCurAOP .." \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
+		SetMapName("RP : " .. FaxCurAOP)
+	else
+		TriggerClientEvent('AOP:NoPerms', source)
 	end
 end)
 
 
 RegisterServerEvent('AOP:Sync')
 AddEventHandler('AOP:Sync', function()
-	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP, FaxCurAOP2)
+	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP)
 end)
 
 RegisterCommand("pt", function(source, args, rawCommand)
 	if peacetime then
-		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+		if IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
 			if not FaxCurPT then
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
 				TriggerClientEvent("AOP:PTSound", -1)
@@ -66,7 +62,7 @@ end)
 -- AOP Command for Vote
 RegisterCommand("aopvote", function(source, args, rawCommand)
 	if vote then
-		if IsPlayerAceAllowed(source, "faxes.aopcmds") then
+		if IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
 			Faxvotestatus = true
 			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
 			Wait(120000)
@@ -105,8 +101,8 @@ function stringsplit(inputstr, sep)
     return t
 end
 
-function tablelength(T)
-  local count = 0
-  for _ in pairs(T) do count = count + 1 end
-  return count
-end
+-- function tablelength(T)
+--   local count = 0
+--   for _ in pairs(T) do count = count + 1 end
+--   return count
+-- end

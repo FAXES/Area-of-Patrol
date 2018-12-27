@@ -1,7 +1,17 @@
 ----------------------------------
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
+
+local cooldown = 0
+peacetimeActive = false
+local year, month, day, hour, minute, second = GetLocalTime()
+local AOPxNew = 0.660
+local AOPyNew = 1.430
+local AOPyNew2 = 1.430
+
 AddEventHandler('onClientMapStart', function()
+    TriggerEvent('AOP:RunConfig')
+    Wait(1000)
     TriggerServerEvent('AOP:Sync')
     TriggerServerEvent('AOP:PTSync')
     TriggerEvent('AOP:JoinMsg')
@@ -23,25 +33,69 @@ AddEventHandler('AOP:PTSound', function()
     PlaySoundFrontend(-1,"CONFIRM_BEEP", "HUD_MINI_GAME_SOUNDSET",1)
 end)
 
+RegisterNetEvent('AOP:RunConfig')
+AddEventHandler('AOP:RunConfig', function()
+    Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
+    if AOPLocation == 0 then -- Default
+        if serverPLD then
+            AOPxNew = 0.660
+            AOPyNew = 1.370
+            AOPyNew2 = AOPyNew + 0.025
+        else
+            AOPxNew = 0.660
+            AOPyNew = 1.430
+            AOPyNew2 = AOPyNew + 0.025
+        end
+    elseif AOPLocation == 1 then -- Bottom Center
+        AOPxNew = 1.000
+        AOPyNew = 1.430
+        AOPyNew2 = AOPyNew + 0.025
+    elseif AOPLocation == 2 then -- Bottom Right [WIP]
+        AOPxNew = 0.660
+        AOPyNew = 1.430
+        AOPyNew2 = AOPyNew + 0.025
+    elseif AOPLocation == 3 then -- Top Right [WIP]
+        AOPxNew = 0.660
+        AOPyNew = 1.430
+        AOPyNew2 = AOPyNew + 0.025
+    elseif AOPLocation == 4 then -- Top Center
+        AOPxNew = 1.000
+        AOPyNew = 0.50
+        AOPyNew2 = AOPyNew + 0.025
+    elseif AOPLocation == 5 then -- Top Left
+        AOPxNew = 0.00
+        AOPyNew = 0.50
+        AOPyNew2 = AOPyNew + 0.025
+    elseif AOPLocation == 6 then -- Custom
+        AOPxNew = AOPx
+        AOPyNew = AOPy
+        AOPyNew2 = AOPyNew + 0.025
+    end
+end)
 
-peacetimeActive = false
 
 RegisterNetEvent('AOP:SendAOP')
-AddEventHandler('AOP:SendAOP', function(newCurAOP, newCurAOP2)
+AddEventHandler('AOP:SendAOP', function(newCurAOP)
     FaxCurAOP = newCurAOP
-	FaxCurAOP2 = newCurAOP2
 end)
     
 RegisterNetEvent('AOP:SendPT')
 AddEventHandler('AOP:SendPT', function(newCurPT)
     peacetimeActive = newCurPT
 end)
-    
-local year, month, day, hour, minute, second = GetLocalTime()
 
 Citizen.CreateThread(function()
     while true do
-    year, month, day, hour, minute, second = GetLocalTime()
+        if localTime then
+            year, month, day, hour, minute, second = GetLocalTime()
+        else
+            year = GetClockYear()
+            month = GetClockMonth()
+            day = GetClockDayOfMonth()
+            hour = GetClockHours()
+            minute = GetClockMinutes()
+            second = GetClockSeconds()
+        end
         Citizen.Wait(1)
         local player = GetPlayerPed(-1)
 
@@ -52,19 +106,25 @@ Citizen.CreateThread(function()
 
         if peacetimeActive then
             if peacetimeNS then
-                -- DisableControlAction(2, 37, true) -- tab
                 if IsControlPressed(0, 106) then
                     ShowInfo("~r~Peacetime is enabled. ~n~~s~You can not shoot.")
                 end
+                SetPlayerCanDoDriveBy(player, false)
                 DisablePlayerFiring(player, true)
+                SetPedConfigFlag(player, 122, true) -- Testing
+                SetPlayerMeleeWeaponDamageModifier(player, 0.0) -- Testing
             end
 
-            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
+            DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
+            DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
         elseif not peacetimeActive then
-            EnableControlAction(2, 37, true) -- tab
-            DrawTextAOP(0.660, 1.430, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawTextAOP(0.660, 1.458, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " " .. FaxCurAOP2 .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
+            if peacetime then
+                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
+            else
+                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year .. " ~p~| ~w~Current ~r~AOP: ~w~" .. FaxCurAOP, 255, 255, 255, 255)
+            end
         end
 	end
 end)
@@ -72,10 +132,13 @@ end)
 RegisterNetEvent('AOP:JoinMsg')
 AddEventHandler('AOP:JoinMsg', function()
     Wait(1000)
-    TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " " .. FaxCurAOP2 .. " \n ——————————————————————", {145, 145, 145})
+    TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " \n ——————————————————————", {145, 145, 145})
 end)
 
 function DrawTextAOP(x,y ,width,height,scale, text, r,g,b,a)
+    if AOPLocation == 1 or AOPLocation == 4 then
+        SetTextCentre(true)
+    end
     SetTextFont(4)
     SetTextProportional(0)
     SetTextScale(scale, scale)

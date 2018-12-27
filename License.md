@@ -22,4 +22,4 @@ Terms are also available at
 [www.faxes.zone/scripts/terms](http://faxes.zone/scripts/terms)
 
 
-![alt text](http://faxes.zone/files/logos/FAXES%20ToUSML.png "FAXES ToU Icon")
+![alt text](http://faxes.zone/TOSlogos/FAXES%20ToUSML.png "FAXES ToU Icon")
