@@ -98,6 +98,8 @@ Citizen.CreateThread(function()
         end
         Citizen.Wait(1)
         local player = GetPlayerPed(-1)
+        local veh = GetVehiclePedIsIn(player)
+        local mph = math.ceil(GetEntitySpeed(veh) * 2.23)
 
         local newMinute = minute
         if minute < 10 then
@@ -113,6 +115,12 @@ Citizen.CreateThread(function()
                 DisablePlayerFiring(player, true)
                 SetPedConfigFlag(player, 122, true) -- Testing
                 SetPlayerMeleeWeaponDamageModifier(player, 0.0) -- Testing
+
+                if GetPedInVehicleSeat(veh, -1) == player then
+                    if mph > maxPTSpeed then
+                        ShowInfo("~r~Please keep in mind peacetime is active! ~n~~w~Slow down or stop.")
+                    end
+                end
             end
 
             DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)

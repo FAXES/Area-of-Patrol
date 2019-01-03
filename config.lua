@@ -24,6 +24,8 @@ localTime = true        -- If true it will get your time. If false it will get t
 AOPx = 0.660
 AOPy = 1.430
 
+maxPTSpeed = 100 -- Max Speed people can go during peacetime before getting a message
+
 --[[
     The default settings can be found on the forums post!
 ]]

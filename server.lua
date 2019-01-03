@@ -8,7 +8,7 @@ FaxCurPT = false
 
 RegisterServerEvent('AOP:Startup')
 AddEventHandler('AOP:Startup', function()
-	print("--- AOP Script Started! ---")
+	print("--- AOP Script Started ---")
 	Wait(3000)
 	TriggerClientEvent("AOP:RunConfig", -1)
 	TriggerClientEvent("AOP:JoinMsg", -1)
@@ -19,8 +19,9 @@ end)
 TriggerEvent("AOP:Startup")
 
 RegisterCommand("aop", function(source, args, raw)
-	if IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
 		FaxCurAOP = table.concat(args, " ")
+		if(source == 0)then;print("AOP changed to: " .. FaxCurAOP);end
 		TriggerEvent("AOP:Sync")
 		TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA IS NOW : ".. FaxCurAOP .." \n Please Finish Your Current RP and Move. \n ——————————————————————", {239, 0, 0})
 		SetMapName("RP : " .. FaxCurAOP)
@@ -37,7 +38,8 @@ end)
 
 RegisterCommand("pt", function(source, args, rawCommand)
 	if peacetime then
-		if IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+			if(source == 0)then;print("Peacetime toggled");end
 			if not FaxCurPT then
 				TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————", {239, 0, 0})
 				TriggerClientEvent("AOP:PTSound", -1)
@@ -62,7 +64,8 @@ end)
 -- AOP Command for Vote
 RegisterCommand("aopvote", function(source, args, rawCommand)
 	if vote then
-		if IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+			if(source == 0)then;print("AOP vote started");end
 			Faxvotestatus = true
 			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
 			Wait(120000)
