@@ -1,4 +1,5 @@
 {
-    "status":"true",
-    "message":"So heres yet another test, moved back to json lol"
+    "status":"false",
+    "message":"So heres yet another test, moved back to json lol",
+    "version":"2.6"
 }
