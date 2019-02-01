@@ -1,1 +1,1 @@
-a = {"true", "THE FRONT BAR BOISSS"}
+{"true", "THE FRONT BAR BOISSS"}
