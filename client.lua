@@ -2,6 +2,13 @@
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
 
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+
+
 local cooldown = 0
 peacetimeActive = false
 local year, month, day, hour, minute, second = GetLocalTime()
@@ -115,6 +122,7 @@ Citizen.CreateThread(function()
                 DisablePlayerFiring(player, true)
                 SetPedConfigFlag(player, 122, true) -- Testing
                 SetPlayerMeleeWeaponDamageModifier(player, 0.0) -- Testing
+                DisableControlAction(0, 140) -- Melee R
 
                 if GetPedInVehicleSeat(veh, -1) == player then
                     if mph > maxPTSpeed then
