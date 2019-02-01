@@ -1,4 +1,0 @@
-tablename = {
-    true = "true",
-    theotherthing = "this thing"
-}
