@@ -1,1 +1,4 @@
-{"true", "THE FRONT BAR BOISSS"}
+tablename = {
+    true = "true",
+    theotherthing = "this thing"
+}
