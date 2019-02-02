@@ -120,8 +120,6 @@ Citizen.CreateThread(function()
                 end
                 SetPlayerCanDoDriveBy(player, false)
                 DisablePlayerFiring(player, true)
-                SetPedConfigFlag(player, 122, true) -- Testing
-                SetPlayerMeleeWeaponDamageModifier(player, 0.0) -- Testing
                 DisableControlAction(0, 140) -- Melee R
 
                 if GetPedInVehicleSeat(veh, -1) == player then

