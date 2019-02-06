@@ -1,6 +1,6 @@
 {
     "status":0,
-    "message":"If your AOP script is having the 'punching issue' Please let FAXES know on the FiveM Forums Topic",
-    "version":"2.7",
-    "changelog":"N/A",
+    "message":"",
+    "version":"2.8",
+    "changelog":"Removed auto-AOP being default",
 }
