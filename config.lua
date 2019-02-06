@@ -32,7 +32,7 @@ AOPCommand = "aop" -- Command for to set AOP
 PTCommand = "pt" -- Command to toggle peacetime
 AOPVoteCommand = "aopvote" -- Command to start AOP vote
 
-autoChangeAOP = true -- Would you like the AOP to change based on the amount of players? If true, see settings below!
+autoChangeAOP = false -- Would you like the AOP to change based on the amount of players? If true, see settings below!
 
 ACAOPUnder5 = "Paleto Bay" -- AOP Auto-set if there is under 5 players
 ACAOPUnder10 = "Sandy Shores" -- AOP Auto-set if there is under 10 players
