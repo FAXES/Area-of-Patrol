@@ -1,7 +1,7 @@
 ----------------------------------
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
-version = "2.7" -- Avoid changing this!
+version = "2.8" -- Avoid changing this!
 
 --- CONFIG AREA ---
 
