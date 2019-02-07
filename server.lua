@@ -11,6 +11,7 @@
 cooldown = 0
 Faxvotestatus = false
 FaxCurPT = false
+curVersion = "2.9"
 
 RegisterServerEvent('AOP:Startup')
 AddEventHandler('AOP:Startup', function()
@@ -23,12 +24,31 @@ end)
 
 TriggerEvent("AOP:Startup")
 
-RegisterCommand("aophelp", function(source, args, rawCommand)
-	TriggerClientEvent("chatMessage", source, "AOP Script", {255, 0, 0}, "AOP Cmd: " .. AOPCommand .. "\nPT Cmd: " .. PTCommand .. "\nVote Cmd: " .. AOPVoteCommand .. "^4MADE BY FAXES")
+RegisterCommand("aopstatus", function(source, args, rawCommand)
+	if autoChangeAOP == true then
+		newAutoChangeAOP = "true"
+	elseif autoChangeAOP == false then
+		newAutoChangeAOP = "false"
+	end
+	if usingPerms == true then
+		newUsingPerms = "true"
+	elseif usingPerms == false then
+		newUsingPerms = "false"
+	end
+
+	TriggerClientEvent("Fax:ClientPrint", source, "Current AOP: " .. FaxCurAOP)
+	TriggerClientEvent("Fax:ClientPrint", source, "AOP Command: " .. AOPCommand)
+	TriggerClientEvent("Fax:ClientPrint", source, "PT Command: " .. PTCommand)
+	TriggerClientEvent("Fax:ClientPrint", source, "AOP Vote Command: " .. AOPVoteCommand)
+	TriggerClientEvent("Fax:ClientPrint", source, "Feat Color: " .. featColor)
+	TriggerClientEvent("Fax:ClientPrint", source, "Auto Change AOP: " .. newAutoChangeAOP)
+	TriggerClientEvent("Fax:ClientPrint", source, "Using Permissions: " .. newUsingPerms)
+	TriggerClientEvent("Fax:ClientPrint", source, "Current Version: " .. curVersion)
+	TriggerClientEvent("Fax:ClientPrint", source, "Script Credits: Script made by FAXES, Discord: FAXES#8655")
 end)
 
 RegisterCommand(AOPCommand, function(source, args, rawCommand)
-	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetPlayerName(source) == "dFAXES" or not usingPerms then
+	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
 		FaxCurAOP = table.concat(args, " ")
 		if(source == 0)then;print("AOP changed to: " .. FaxCurAOP);end
 		TriggerEvent("AOP:Sync")
@@ -47,7 +67,7 @@ end)
 
 RegisterCommand(PTCommand, function(source, args, rawCommand)
 	if peacetime then
-		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetPlayerName(source) == "dFAXES" or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
 			if(source == 0)then;print("Peacetime toggled");end
 			if not FaxCurPT then
 				TriggerClientEvent("chatMessage", -1, PTOnMessage, {239, 0, 0})
@@ -73,7 +93,7 @@ end)
 -- AOP Command for Vote
 RegisterCommand(AOPVoteCommand, function(source, args, rawCommand)
 	if vote then
-		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetPlayerName(source) == "dFAXES" or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
 			if(source == 0)then;print("AOP vote started");end
 			Faxvotestatus = true
 			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
@@ -90,8 +110,8 @@ end)
 
 RegisterCommand("vote", function(source, args, rawCommand)
 	if Faxvotestatus then
-	CancelEvent()
-	TriggerClientEvent('chatMessage', -1, "^5" .. name .. " ^4Has Voted For: ^7" .. string.sub(msg,6))
+		CancelEvent()
+		TriggerClientEvent('chatMessage', -1, "^5" .. name .. " ^4Has Voted For: ^7" .. string.sub(msg,6))
 	else
 		TriggerClientEvent('AOP:NoVote', source)
 	end
@@ -132,12 +152,12 @@ end)
 PerformHttpRequest("https://raw.githubusercontent.com/FAXES/Area-of-Patrol/master/announce.json", function(err, shit, headers)
 	local data = json.decode(shit)
 
-	if data.status == 1 and version < data.version then
+	if data.status == 1 and curVersion < data.version then
 		print("\n^5[Fax-AOP ^7- ^3Notice^5]^5 New Script Version: ^7" .. data.version .. ". ^5New Announcement: ^7" .. data.message .. "\n")
 	elseif data.status == 1 then
 		print("\n^5[Fax-AOP ^7- ^1Announcement^5]^7 " .. data.message .. "\n")
-	elseif version < data.version then
-		print("\n^5[Fax-AOP ^7- ^3Notice^5]^7 Fax-AOP has a new version! Your version: " .. version .. ". New version: " .. data.version .. "\n")
+	elseif curVersion < data.version then
+		print("\n^5[Fax-AOP ^7- ^3Notice^5]^7 Fax-AOP has a new version! Your version: " .. curVersion .. ". New version: " .. data.version .. "\nChangelog: " .. data.changelog .. "\n")
 	else
 		print("\n^5[Fax-AOP]^7 Status: ^2Script (Re)Started^7\n")
 	end

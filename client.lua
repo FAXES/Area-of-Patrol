@@ -27,12 +27,17 @@ end)
 
 RegisterNetEvent('AOP:NoPerms')
 AddEventHandler('AOP:NoPerms', function()
-    TriggerEvent("chatMessage", "AOP Script", {255, 0, 0}, "Insufficient Permissions.")
+    ShowInfo(noPermsMessage)
+end)
+
+RegisterNetEvent('Fax:ClientPrint')
+AddEventHandler('Fax:ClientPrint', function(text)
+    print(text)
 end)
     
 RegisterNetEvent('AOP:NoVote')
 AddEventHandler('AOP:NoVote', function()
-    TriggerEvent("chatMessage", "AOP Script", {255, 0, 0}, "AOP Vote Is Currently Not Active.")
+    ShowInfo("~y~AOP Vote Is Currently Not Active.")
 end)
 
 RegisterNetEvent('AOP:PTSound')
@@ -42,7 +47,6 @@ end)
 
 RegisterNetEvent('AOP:RunConfig')
 AddEventHandler('AOP:RunConfig', function()
-    Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
     if AOPLocation == 0 then -- Default
         if serverPLD then
             AOPxNew = 0.660
@@ -78,6 +82,7 @@ AddEventHandler('AOP:RunConfig', function()
         AOPyNew = AOPy
         AOPyNew2 = AOPyNew + 0.025
     end
+    Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
 end)
 
 
@@ -129,15 +134,15 @@ Citizen.CreateThread(function()
                 end
             end
 
-            DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-            DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " ~p~| ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
+            DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, featColor .. "Time: ~w~" .. hour .. ":" .. newMinute .. featColor .." | Date: ~w~" .. day .. featColor .."/~w~" .. month .. featColor .. "/~w~" .. year, 255, 255, 255, 255)
+            DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. featColor .. " | ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
         elseif not peacetimeActive then
             if peacetime then
-                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. " ~p~| Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year, 255, 255, 255, 255)
-                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. " ~p~| ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. featColor .. " | Date: ~w~" .. day .. featColor .. "/~w~" .. month .. featColor .. "/~w~" .. year, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. featColor .. " | ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
             else
-                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute, 255, 255, 255, 255)
-                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "Date: ~w~" .. day .. "~p~/~w~" .. month .. "~p~/~w~" .. year .. " ~p~| ~w~Current ~r~AOP: ~w~" .. FaxCurAOP, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, featColor .. "Time: ~w~" .. hour .. ":" .. newMinute, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "Date: ~w~" .. day .. featColor .. "/~w~" .. month .. featColor .. "/~w~" .. year .. featColor .. " | ~w~Current ~r~AOP: ~w~" .. FaxCurAOP, 255, 255, 255, 255)
             end
         end
 	end

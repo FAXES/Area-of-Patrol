@@ -1,7 +1,6 @@
 ----------------------------------
 -- Area of Patrol, Made by FAXES--
 ----------------------------------
-version = "2.8" -- Avoid changing this!
 
 --- CONFIG AREA ---
 
@@ -44,6 +43,9 @@ PTOnMessage = " \n ————————————————————�
 PTOffMessage = "\n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————" -- Message displayed when peacetime is turned OFF
 SecondaryMessageAOP = "Please Finish Your Current RP and Move." -- Message displayed on 2nd line of new AOP announcement
 
+-- NEW - Added in 2.9
+featColor = "~p~" -- Colours used in highlighting for the drawtext. Availible colours: https://gist.github.com/leonardosnt/061e691a1c6c0597d633
+noPermsMessage = "~r~Insufficient Permissions." -- Message given if the player does not have permissions
 
 --[[
     The default settings can be found on the forums post!
