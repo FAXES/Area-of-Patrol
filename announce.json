@@ -1,6 +1,6 @@
 {
     "status":0,
     "message":"",
-    "version":"2.9",
-    "changelog":"Removed auto-AOP being default",
+    "version":"3.0",
+    "changelog":"Config file remade, per AOP spawn points. UPDATE THE SCRIPT PLEASE!",
 }
