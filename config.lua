@@ -1,52 +1,93 @@
-----------------------------------
--- Area of Patrol, Made by FAXES--
-----------------------------------
+--[[
+    -----------------------------------
+    -- Area of Patrol, Made by FAXES --
+    --          CONFIG FILE          --
+    -----------------------------------
 
---- CONFIG AREA ---
+    !!!!!!!!!IMPORTANT!!!!!!!!!
+    To see what each variable (configurable option) below does. Please view the link right below...
 
-FaxCurAOP = "None Set"  -- Default AOP for when the script starts
+    Default / Variable Docs: https://github.com/FAXES/Area-of-Patrol/wiki/Variable-Docs [WIP Still]
 
-vote = true				-- Enables the vote command for AOP
-peacetime = true		-- Enables the peacetime command for AOP
-
-usingPerms = true       -- Toggles ACE permission use. For no command permissions set to false
-
-peacetimeNS = true      -- Enables no shooting when peacetime is active
-
-AOPLocation = 0         -- 0 = Default, 1 = bottom center, 2 = bottom right, 3 = top right, 4 = top center, 5 = top left, 6 = custom setting (x, y)
-                        -- NOTE! 2 & 3 are not set up and will display as the default!
-
-serverPLD = false       -- Server-side PLD installed? Only set to TRUE if using the default AOPLocation above (0)
-
-localTime = true        -- If true it will get your time. If false it will get the in-game time
-
--- Only change these if AOPLocation = 6 (Custom Setting):
-AOPx = 0.660
-AOPy = 1.430
-
-maxPTSpeed = 100 -- Max Speed people can go during peacetime before getting a message (in mph)
-
---- NEW!!! ADDED IN 2.6 ---
-AOPCommand = "aop" -- Command for to set AOP
-PTCommand = "pt" -- Command to toggle peacetime
-AOPVoteCommand = "aopvote" -- Command to start AOP vote
-
-autoChangeAOP = false -- Would you like the AOP to change based on the amount of players? If true, see settings below!
-
-ACAOPUnder5 = "Paleto Bay" -- AOP Auto-set if there is under 5 players
-ACAOPUnder10 = "Sandy Shores" -- AOP Auto-set if there is under 10 players
-ACAOPUnder20 = "Blaine County" -- AOP Auto-set if there is under 20 players
-ACAOPUnder30 = "Los Santos" -- AOP Auto-set if there is under 30 players
-ACAOPOver30 = "San Andreas" -- AOP Auto-set if there is over 30 players
-
-PTOnMessage = " \n —————————————————————— \n PEACE TIME IS NOW IN EFFECT \n This Means No Priority Calls.  \n ——————————————————————" -- Message displayed when peacetime is turned ON
-PTOffMessage = "\n —————————————————————— \n PEACE TIME IS NO LONGER IN EFFECT \n Resume Normal RP.  \n ——————————————————————" -- Message displayed when peacetime is turned OFF
-SecondaryMessageAOP = "Please Finish Your Current RP and Move." -- Message displayed on 2nd line of new AOP announcement
-
--- NEW - Added in 2.9
-featColor = "~p~" -- Colours used in highlighting for the drawtext. Availible colours: https://gist.github.com/leonardosnt/061e691a1c6c0597d633
-noPermsMessage = "~r~Insufficient Permissions." -- Message given if the player does not have permissions
+    New items will be added/removed per version. New items will show: NEW
+]]
 
 --[[
-    The default settings can be found on the forums post!
-]]
+    1. General Config & Commands
+--]]
+
+    FaxCurAOP = "None Set"
+    usingPerms = true
+    vote = true
+    AOPChangeNotification = true
+
+    AOPCommand = "aop"
+    PTCommand = "pt"
+    AOPVoteCommand = "aopvote"
+
+    featColor = "~p~"
+
+    SecondaryMessageAOP = "Please Finish Your Current RP and Move." -- REMOVED...
+    noPermsMessage = "~r~Insufficient Permissions."
+
+
+--[[
+    2. Peacetime Settings
+--]]
+
+    peacetime = true
+    peacetimeNS = true
+    maxPTSpeed = 100
+
+    PTOnMessage = featColor .. "Peace Time ~w~is now ~g~ in effect!"
+    PTOffMessage = featColor .. "Peace Time ~w~is now ~r~off."
+
+
+--[[
+    3. DrawText Settings
+--]]
+
+    AOPLocation = 0
+    serverPLD = false
+    localTime = 1
+    
+    AOPx = 0.660
+    AOPy = 1.430
+
+
+--[[
+    4. Auto AOP Settings
+--]]
+
+    autoChangeAOP = false
+
+    ACAOPUnder5 = "Paleto Bay"
+    ACAOPUnder10 = "Sandy Shores"
+    ACAOPUnder20 = "Blaine County"
+    ACAOPUnder30 = "Los Santos"
+    ACAOPOver30 = "San Andreas"
+
+
+--[[NEW]]
+--[[
+    5. AOP Spawn Locations
+--]]
+    AOPSpawnsEnabled = false
+    AOPSpawns = {
+        {
+            AOPName = 'sandy shores',
+            AOPCoords  = {x = 311.22, y = 3457.60, z = 36.15}
+        },
+        {
+            AOPName = 'paleto bay',
+            AOPCoords  = {x = -447.24, y = 5970.46, z = 31.78}
+        },
+        {
+            AOPName = 'downtown',
+            AOPCoords  = {x = 219.98, y = -913.38, z = 30.69}
+        },
+        {
+            AOPName = 'rockford hills',
+            AOPCoords  = {x = -851.57, y = -128.04, z = 37.62}
+        },
+    }

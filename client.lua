@@ -1,6 +1,6 @@
-----------------------------------
--- Area of Patrol, Made by FAXES--
-----------------------------------
+-----------------------------------
+-- Area of Patrol, Made by FAXES --
+-----------------------------------
 
 --- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
 --- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
@@ -18,12 +18,18 @@ local AOPyNew2 = 1.430
 
 AddEventHandler('onClientMapStart', function()
     TriggerEvent('AOP:RunConfig')
-    Wait(1000)
+    Wait(2000)
     TriggerServerEvent('AOP:Sync')
     TriggerServerEvent('AOP:PTSync')
     TriggerEvent('AOP:JoinMsg')
 end)
 
+AddEventHandler('playerSpawned', function()
+    local ped = GetPlayerPed(-1)
+    if AOPSpawnsEnabled then
+        TriggerEvent('AOP:SetPlayerSpawnPoint', ped)
+    end
+end)
 
 RegisterNetEvent('AOP:NoPerms')
 AddEventHandler('AOP:NoPerms', function()
@@ -38,6 +44,13 @@ end)
 RegisterNetEvent('AOP:NoVote')
 AddEventHandler('AOP:NoVote', function()
     ShowInfo("~y~AOP Vote Is Currently Not Active.")
+end)
+
+RegisterNetEvent('AOP:DisNotification')
+AddEventHandler('AOP:DisNotification', function(textPassed)
+    SetTextComponentFormat("STRING")
+    AddTextComponentString(textPassed)
+    DisplayHelpTextFromStringLabel(0, 0, 1, - 1)
 end)
 
 RegisterNetEvent('AOP:PTSound')
@@ -82,6 +95,7 @@ AddEventHandler('AOP:RunConfig', function()
         AOPyNew = AOPy
         AOPyNew2 = AOPyNew + 0.025
     end
+
     Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
 end)
 
@@ -96,27 +110,40 @@ AddEventHandler('AOP:SendPT', function(newCurPT)
     peacetimeActive = newCurPT
 end)
 
+RegisterNetEvent('AOP:SetPlayerSpawnPoint')
+AddEventHandler('AOP:SetPlayerSpawnPoint', function(ped)
+    for i=1, #AOPSpawns do
+        local AOPTab = AOPSpawns[i]
+        if string.lower(AOPTab.AOPName) == string.lower(FaxCurAOP) then
+            SetEntityCoords(ped, AOPTab.AOPCoords.x, AOPTab.AOPCoords.y, AOPTab.AOPCoords.z)
+        end
+    end
+end)
+
 Citizen.CreateThread(function()
     while true do
-        if localTime then
+        if localTime == 1 then -- client time
             year, month, day, hour, minute, second = GetLocalTime()
-        else
-            year = GetClockYear()
-            month = GetClockMonth()
-            day = GetClockDayOfMonth()
-            hour = GetClockHours()
-            minute = GetClockMinutes()
-            second = GetClockSeconds()
+            newMinute = minute
+            if minute < 10 then
+                newMinute = "0" .. minute
+            end
+            drawTimeText = featColor .. "Time: ~w~" .. hour .. ":" .. newMinute .. featColor .." | Date: ~w~" .. day .. featColor .."/~w~" .. month .. featColor .. "/~w~" .. year
+        elseif localTime == 2 then
+            year = GetClockYear();month = GetClockMonth();day = GetClockDayOfMonth()
+            hour = GetClockHours();minute = GetClockMinutes();second = GetClockSeconds()
+            newMinute = minute
+            if minute < 10 then
+                newMinute = "0" .. minute
+            end
+            drawTimeText = featColor .. "Time: ~w~" .. hour .. ":" .. newMinute .. featColor .." | Date: ~w~" .. day .. featColor .."/~w~" .. month .. featColor .. "/~w~" .. year
+        elseif localTime == 0 then
+            drawTimeText = ""
         end
         Citizen.Wait(1)
         local player = GetPlayerPed(-1)
         local veh = GetVehiclePedIsIn(player)
         local mph = math.ceil(GetEntitySpeed(veh) * 2.23)
-
-        local newMinute = minute
-        if minute < 10 then
-            newMinute = "0" .. minute
-        end
 
         if peacetimeActive then
             if peacetimeNS then
@@ -126,23 +153,22 @@ Citizen.CreateThread(function()
                 SetPlayerCanDoDriveBy(player, false)
                 DisablePlayerFiring(player, true)
                 DisableControlAction(0, 140) -- Melee R
-
-                if GetPedInVehicleSeat(veh, -1) == player then
-                    if mph > maxPTSpeed then
-                        ShowInfo("~r~Please keep in mind peacetime is active! ~n~~w~Slow down or stop.")
-                    end
+            end
+            if GetPedInVehicleSeat(veh, -1) == player then
+                if mph > maxPTSpeed then
+                    ShowInfo("~r~Please keep in mind peacetime is active! ~n~~w~Slow down or stop.")
                 end
             end
 
-            DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, featColor .. "Time: ~w~" .. hour .. ":" .. newMinute .. featColor .." | Date: ~w~" .. day .. featColor .."/~w~" .. month .. featColor .. "/~w~" .. year, 255, 255, 255, 255)
-            DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. featColor .. " | ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
+            DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, drawTimeText, 255, 255, 255, 255)
+            DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current " .. featColor .. "AOP: ~w~" .. FaxCurAOP .. featColor .. " | ~w~PeaceTime: ~g~Enabled", 255, 255, 255, 255)
         elseif not peacetimeActive then
             if peacetime then
-                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, "~p~Time: ~w~" .. hour .. ":" .. newMinute .. featColor .. " | Date: ~w~" .. day .. featColor .. "/~w~" .. month .. featColor .. "/~w~" .. year, 255, 255, 255, 255)
-                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current ~r~AOP: ~w~" .. FaxCurAOP .. featColor .. " | ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, drawTimeText, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current " .. featColor .. "AOP: ~w~" .. FaxCurAOP .. featColor .. " | ~w~PeaceTime: ~r~Disabled", 255, 255, 255, 255)
             else
-                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, featColor .. "Time: ~w~" .. hour .. ":" .. newMinute, 255, 255, 255, 255)
-                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "Date: ~w~" .. day .. featColor .. "/~w~" .. month .. featColor .. "/~w~" .. year .. featColor .. " | ~w~Current ~r~AOP: ~w~" .. FaxCurAOP, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew, 1.0,1.0,0.45, drawTimeText, 255, 255, 255, 255)
+                DrawTextAOP(AOPxNew, AOPyNew2, 1.0,1.0,0.45, "~w~Current " .. featColor .. "AOP: ~w~" .. FaxCurAOP, 255, 255, 255, 255)
             end
         end
 	end

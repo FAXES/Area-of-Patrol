@@ -15,7 +15,9 @@ Therefore, responsibility for any damages caused by this product or its misuse r
 
 - Editing / abusing these terms will result in action
 
-### Summery
+- Do not remove credits that are within the products file(s)
+
+### Summary
 So basically you can edit anything with the product (except the terms), but you can not release the product nor release the edited version without written permission from FAXES. 
 
 Terms are also available at 
