@@ -1,6 +1,6 @@
 {
     "status":0,
     "message":"",
-    "version":"3.0",
-    "changelog":"Config file remade, per AOP spawn points. UPDATE THE SCRIPT PLEASE!",
+    "version":"3.1",
+    "changelog":"Added Discord permissions (optional).",
 }
