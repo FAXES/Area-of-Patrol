@@ -11,7 +11,7 @@
 cooldown = 0
 Faxvotestatus = false
 FaxCurPT = false
-curVersion = "3.0"
+curVersion = "3.1"
 
 aopVoteLSCount = 0
 aopVoteBCCount = 0
