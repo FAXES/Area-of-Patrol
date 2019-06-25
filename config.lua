@@ -68,10 +68,10 @@
     ACAOPOver30 = "San Andreas"
 
 
---[[NEW]]
 --[[
     5. AOP Spawn Locations
 --]]
+
     AOPSpawnsEnabled = false
     AOPSpawns = {
         {
@@ -91,3 +91,12 @@
             AOPCoords  = {x = -851.57, y = -128.04, z = 37.62}
         },
     }
+
+-- NEW!
+--[[
+    6. Discord Permissions
+    Make sure to have discord_perms installed and configured!
+--]]
+
+    usingDiscordPerms = false
+    discordRoleNames = {"RoleName1", "RoleName2"}

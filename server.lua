@@ -43,6 +43,30 @@ t = {
 	votePaleto = aopVotePaletoCount,
 }
 
+function GetDiscordPermissionSet(src)
+	if usingDiscordPerms then
+		local identifierDiscord = nil
+		for k, v in ipairs(GetPlayerIdentifiers(src)) do
+			if string.sub(v, 1, string.len("discord:")) == "discord:" then
+				identifierDiscord = v
+			end
+		end
+
+		if identifierDiscord then
+			for i = 1, #discordRoleNames do
+				if exports.discord_perms:IsRolePresent(src, discordRoleNames[i]) then
+					return true
+				else
+					return false
+				end
+			end
+		elseif identifierDiscord == nil then
+			print("[Fax-AOP] No Discord ID found for '" .. GetPlayerName(src) .. "'")
+			return false
+		end
+	end
+end
+
 RegisterServerEvent('AOP:Startup')
 AddEventHandler('AOP:Startup', function()
 	Wait(3000)
@@ -55,7 +79,7 @@ end)
 TriggerEvent("AOP:Startup")
 
 RegisterCommand(AOPCommand, function(source, args, rawCommand)
-	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+	if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetDiscordPermissionSet(source) or not usingPerms then
 		FaxCurAOP = table.concat(args, " ")
 		if(source == 0)then;print("AOP changed to: " .. FaxCurAOP);end
 		TriggerEvent("AOP:Sync")
@@ -77,7 +101,7 @@ end)
 
 RegisterCommand(PTCommand, function(source, args, rawCommand)
 	if peacetime then
-		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetDiscordPermissionSet(source) or not usingPerms then
 			if(source == 0)then;print("Peacetime toggled");end
 			if not FaxCurPT then
 				-- TriggerClientEvent("chatMessage", -1, PTOnMessage, {239, 0, 0})
@@ -105,7 +129,7 @@ end)
 -- AOP Command for Vote
 RegisterCommand(AOPVoteCommand, function(source, args, rawCommand)
 	if vote then
-		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or not usingPerms then
+		if source == 0 or IsPlayerAceAllowed(source, "faxes.aopcmds") or GetDiscordPermissionSet(source) or not usingPerms then
 			if(source == 0)then;print("AOP vote started");end
 			Faxvotestatus = true
 			TriggerClientEvent("chatMessage", -1, " \n —————————————————————— \n RP AREA VOTE \n Use /vote. Vote Lasts 3 Minutes.  \n ——————————————————————", {239, 0, 0})
