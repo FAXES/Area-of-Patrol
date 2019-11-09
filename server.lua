@@ -97,6 +97,7 @@ end)
 RegisterServerEvent('AOP:Sync')
 AddEventHandler('AOP:Sync', function()
 	TriggerClientEvent('AOP:SendAOP', -1, FaxCurAOP)
+	TriggerEvent('AOP:SendAOP', FaxCurAOP)
 end)
 
 RegisterCommand(PTCommand, function(source, args, rawCommand)
