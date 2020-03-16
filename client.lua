@@ -3,10 +3,6 @@
 -----------------------------------
 
 --- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
 
 
 local cooldown = 0
@@ -95,8 +91,7 @@ AddEventHandler('AOP:RunConfig', function()
         AOPyNew = AOPy
         AOPyNew2 = AOPyNew + 0.025
     end
-
-    Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
+    --Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
 end)
 
 
@@ -172,12 +167,6 @@ Citizen.CreateThread(function()
             end
         end
 	end
-end)
-
-RegisterNetEvent('AOP:JoinMsg')
-AddEventHandler('AOP:JoinMsg', function()
-    Wait(1000)
-    TriggerEvent("chatMessage", " \n —————————————————————— \n Current RP Area is : " .. FaxCurAOP .. " \n ——————————————————————", {145, 145, 145})
 end)
 
 function DrawTextAOP(x,y ,width,height,scale, text, r,g,b,a)
