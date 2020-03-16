@@ -1,6 +1,6 @@
 {
     "status":0,
     "message":"",
-    "version":"3.1",
-    "changelog":"Added Discord permissions (optional).",
+    "version":"3.2",
+    "changelog":"Removed old methods and did some house keeping.",
 }
