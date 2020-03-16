@@ -3,15 +3,11 @@
 -----------------------------------
 
 --- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
---- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
 
 cooldown = 0
 Faxvotestatus = false
 FaxCurPT = false
-curVersion = "3.1"
+curVersion = "3.2"
 
 aopVoteLSCount = 0
 aopVoteBCCount = 0
@@ -72,7 +68,7 @@ AddEventHandler('AOP:Startup', function()
 	Wait(3000)
 	TriggerClientEvent("AOP:RunConfig", -1)
 	TriggerClientEvent("AOP:JoinMsg", -1)
-	Wait(30000)
+	Wait(10000)
 	SetMapName("RP : " .. FaxCurAOP)
 end)
 
@@ -277,7 +273,6 @@ end)
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! --
 -----------------------------------------------------------
 -- THE BELOW IS FOR DEBUGGING AND CHECKERS. DO NOT TOUCH --
---       Touching the below results in NO support!       --
 -----------------------------------------------------------
 
 RegisterCommand("aopstatus", function(source, args, rawCommand)
