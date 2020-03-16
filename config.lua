@@ -6,10 +6,7 @@
 
     !!!!!!!!!IMPORTANT!!!!!!!!!
     To see what each variable (configurable option) below does. Please view the link right below...
-
-    Default / Variable Docs: https://github.com/FAXES/Area-of-Patrol/wiki/Variable-Docs [WIP Still]
-
-    New items will be added/removed per version. New items will show: NEW
+    Variable Docs: https://github.com/FAXES/Area-of-Patrol/wiki/Variable-Docs
 ]]
 
 --[[
@@ -26,8 +23,6 @@
     AOPVoteCommand = "aopvote"
 
     featColor = "~p~"
-
-    SecondaryMessageAOP = "Please Finish Your Current RP and Move." -- REMOVED...
     noPermsMessage = "~r~Insufficient Permissions."
 
 
@@ -92,7 +87,6 @@
         },
     }
 
--- NEW!
 --[[
     6. Discord Permissions
     Make sure to have discord_perms installed and configured!
