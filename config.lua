@@ -6,7 +6,8 @@
 
     !!!!!!!!!IMPORTANT!!!!!!!!!
     To see what each variable (configurable option) below does. Please view the link right below...
-    Variable Docs: https://github.com/FAXES/Area-of-Patrol/wiki/Variable-Docs
+
+    Default / Variable Docs: https://docs.faxes.zone/docs/aop-setup/#variable-documentation
 ]]
 
 --[[
@@ -15,12 +16,10 @@
 
     FaxCurAOP = "None Set"
     usingPerms = true
-    vote = true
     AOPChangeNotification = true
 
     AOPCommand = "aop"
     PTCommand = "pt"
-    AOPVoteCommand = "aopvote"
 
     featColor = "~p~"
     noPermsMessage = "~r~Insufficient Permissions."
@@ -87,10 +86,14 @@
         },
     }
 
+-- NEW!
 --[[
     6. Discord Permissions
     Make sure to have discord_perms installed and configured!
 --]]
 
     usingDiscordPerms = false
-    discordRoleNames = {"RoleName1", "RoleName2"}
+    discordRoleIds = {
+        "Role_ID",
+        "Role_ID"
+    }

@@ -3,6 +3,10 @@
 -----------------------------------
 
 --- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
+--- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
 
 
 local cooldown = 0
@@ -17,7 +21,6 @@ AddEventHandler('onClientMapStart', function()
     Wait(2000)
     TriggerServerEvent('AOP:Sync')
     TriggerServerEvent('AOP:PTSync')
-    TriggerEvent('AOP:JoinMsg')
 end)
 
 AddEventHandler('playerSpawned', function()
@@ -36,17 +39,12 @@ RegisterNetEvent('Fax:ClientPrint')
 AddEventHandler('Fax:ClientPrint', function(text)
     print(text)
 end)
-    
-RegisterNetEvent('AOP:NoVote')
-AddEventHandler('AOP:NoVote', function()
-    ShowInfo("~y~AOP Vote Is Currently Not Active.")
-end)
 
 RegisterNetEvent('AOP:DisNotification')
 AddEventHandler('AOP:DisNotification', function(textPassed)
-    SetTextComponentFormat("STRING")
-    AddTextComponentString(textPassed)
-    DisplayHelpTextFromStringLabel(0, 0, 1, - 1)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(textPassed)
+    EndTextCommandDisplayHelp(0, 0, 1, - 1)
 end)
 
 RegisterNetEvent('AOP:PTSound')
@@ -91,7 +89,8 @@ AddEventHandler('AOP:RunConfig', function()
         AOPyNew = AOPy
         AOPyNew2 = AOPyNew + 0.025
     end
-    --Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
+
+    Citizen.Trace("[FAXES AOP SCRIPT] Config Ran")
 end)
 
 
@@ -99,7 +98,7 @@ RegisterNetEvent('AOP:SendAOP')
 AddEventHandler('AOP:SendAOP', function(newCurAOP)
     FaxCurAOP = newCurAOP
 end)
-    
+
 RegisterNetEvent('AOP:SendPT')
 AddEventHandler('AOP:SendPT', function(newCurPT)
     peacetimeActive = newCurPT
@@ -143,7 +142,7 @@ Citizen.CreateThread(function()
         if peacetimeActive then
             if peacetimeNS then
                 if IsControlPressed(0, 106) then
-                    ShowInfo("~r~Peacetime is enabled. ~n~~s~You can not shoot.")
+                    ShowInfo("~r~Peacetime is enabled. ~n~~s~You cannot cause violence.")
                 end
                 SetPlayerCanDoDriveBy(player, false)
                 DisablePlayerFiring(player, true)
@@ -177,17 +176,15 @@ function DrawTextAOP(x,y ,width,height,scale, text, r,g,b,a)
     SetTextProportional(0)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0,255)
     SetTextEdge(2, 0, 0, 0, 255)
-    SetTextDropShadow()
     SetTextOutline()
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x - width/2, y - height/2 + 0.005)
+    BeginTextCommandDisplayText("STRING")
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandDisplayText(x - width/2, y - height/2 + 0.005)
 end
 
 function ShowInfo(text)
-	SetNotificationTextEntry("STRING")
-	AddTextComponentString(text)
-	DrawNotification(true, false)
+	BeginTextCommandThefeedPost("STRING")
+	AddTextComponentSubstringPlayerName(text)
+	EndTextCommandThefeedPostTicker(true, false)
 end
