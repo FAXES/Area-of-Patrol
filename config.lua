@@ -24,7 +24,6 @@
     featColor = "~p~"
     noPermsMessage = "~r~Insufficient Permissions."
 
-
 --[[
     2. Peacetime Settings
 --]]
@@ -86,10 +85,9 @@
         },
     }
 
--- NEW!
 --[[
     6. Discord Permissions
-    Make sure to have discord_perms installed and configured!
+    Make sure to have discordroles installed and configured!
 --]]
 
     usingDiscordPerms = false

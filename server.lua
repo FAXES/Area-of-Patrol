@@ -9,44 +9,33 @@
 --- NO NEED TO EDIT THIS FILE!!!! EDIT THE CONFIG.LUA ---
 
 FaxCurPT = false
-curVersion = "3.3"
+curVersion = "3.4"
 
-local function has_value(table, val)
-	if table then
-		for index, value in ipairs(table) do
-			if value == val then
-				return true
-			end
-		end
-	end
-	return false
-end
 function GetDiscordPermissionSet(src)
 	if usingDiscordPerms then
-		local passAuth = false
 		for k, v in ipairs(GetPlayerIdentifiers(src)) do
 			if string.sub(v, 1, string.len("discord:")) == "discord:" then
 				identifierDiscord = v
 			end
 		end
+
 		if identifierDiscord then
-			usersRoles = exports.discord_perms:GetRoles(src)
-			for index, valueReq in ipairs(discordRoleIds) do 
-				if has_value(usersRoles, valueReq) then
-					passAuth = true
+			exports['discordroles']:isRolePresent(src, discordRoleIds, function(hasRole, roles)
+				if not roles then
+					return false
 				end
-				if next(discordRoleIds,index) == nil then
-					if passAuth == true then
-						return true
-					else
-						return false
-					end
+				if hasRole then
+					return true
+				else
+					return false
 				end
-			end
+			end)
 		else
-			print("~1~[Fax-AOP] No Discord ID found for '" .. GetPlayerName(src) .. "'~r~")
+			print("^1[Fax-AOP] No Discord ID found for '" .. GetPlayerName(src) .. "'^7")
 			return false
 		end
+	else
+		return false
 	end
 end
 
@@ -67,7 +56,7 @@ RegisterCommand(AOPCommand, function(source, args, rawCommand)
 		TriggerEvent("AOP:Sync")
 		SetMapName("RP : " .. FaxCurAOP)
 		if AOPChangeNotification then
-				TriggerClientEvent("AOP:DisNotification", -1, featColor .. "Area of Patrol ~w~has changed!~n~AOP: " .. FaxCurAOP)
+			TriggerClientEvent("AOP:DisNotification", -1, featColor .. "Area of Patrol ~w~has changed!~n~AOP: " .. FaxCurAOP)
 		end
 	else
 		TriggerClientEvent('AOP:NoPerms', source)
@@ -161,15 +150,13 @@ RegisterCommand("aopstatus", function(source, args, rawCommand)
 	TriggerClientEvent("Fax:ClientPrint", source, "Script Credits: Script made by FAXES, Discord: FAXES#8655 - http://faxes.zone/discord")
 end)
 
-PerformHttpRequest("https://raw.githubusercontent.com/FAXES/Area-of-Patrol/master/announce.json", function(err, shit, headers)
+PerformHttpRequest("https://raw.githubusercontent.com/FAXES/ResourceStats/master/AOP.json", function(err, shit, headers)
 	local data = json.decode(shit)
-	if data.status == 1 and curVersion < data.version then
+	if data.announce == 1 and curVersion < data.version then
 		print("\n^5[Fax-AOP ^7- ^3Notice^5]^5 New Script Version: ^7" .. data.version .. ". ^5New Announcement: ^7" .. data.message .. "\n")
-	elseif data.status == 1 then
+	elseif data.announce == 1 then
 		print("\n^5[Fax-AOP ^7- ^1Announcement^5]^7 " .. data.message .. "\n")
 	elseif curVersion < data.version then
 		print("\n^5[Fax-AOP ^7- ^3Notice^5]^7 Fax-AOP has a new version! Your version: " .. curVersion .. ". New version: " .. data.version .. "\nChangelog: " .. data.changelog .. "\n")
-	else
-		print("\n^5[Fax-AOP]^7 Status: ^2Script (Re)Started^7\n")
 	end
 end)
