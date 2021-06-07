@@ -7,15 +7,15 @@
 This is a simple script that will set an RP area when a command is entered. The RP area will also be displayed in the server list under the map title. Below is all the information you need to get started with this script. In update 1.6 I made a drawtext function so users can visually see the set AOP!
 
 **Documentation:**
-- [AOP Install Documentation](https://docs.faxes.zone/docs/aop-setup)
-- [AOP Variable Documentation](https://docs.faxes.zone/docs/aop-setup/#variable-documentation)
-- [FAXES Documentation Site](https://docs.faxes.zone/docs)
-- [FAXES ACE Permission Documentation](https://docs.faxes.zone/docs/aceperms)
-- [Getting Your Steam Hexadecimal](https://docs.faxes.zone/docs/getting-your-steam-hex)
+- [Join my Discord](https://faxes.zone/discord)
+
+- [AOP Install Documentation](https://docs.faxes.zone/c/fivem/aop-setup)
+- [AOP Variable Documentation](https://docs.faxes.zone/c/fivem/aop-setup#variable-documentation)
+- [FAXES Documentation Site](https://docs.faxes.zone)
+- [FAXES ACE Permission Documentation](https://docs.faxes.zone/c/fivem/aceperms)
 
 **Credits:**
 - FAXES
-- Astra
 
 <br />
 
