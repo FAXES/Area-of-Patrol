@@ -7,7 +7,7 @@
     !!!!!!!!!IMPORTANT!!!!!!!!!
     To see what each variable (configurable option) below does. Please view the link right below...
 
-    Default / Variable Docs: https://docs.faxes.zone/docs/aop-setup/#variable-documentation
+    Default / Variable Docs: https://docs.faxes.zone/c/fivem/aop-setup#variable-documentation
 ]]
 
 --[[
