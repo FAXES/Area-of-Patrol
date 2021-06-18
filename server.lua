@@ -96,28 +96,32 @@ end)
 Citizen.CreateThread(function()
     while autoChangeAOP do
 		local players = GetPlayers()
-		for a = 1, #players do
-			if players[a] > "30" then -- over 30
-				FaxCurAOP = ACAOPOver30
-				SetMapName("RP : " .. FaxCurAOP)
-				TriggerEvent("AOP:Sync")
-			elseif players[a] < "5" then -- under 5
-				FaxCurAOP = ACAOPUnder5
-				SetMapName("RP : " .. FaxCurAOP)
-				TriggerEvent("AOP:Sync")
-			elseif players[a] < "10" then -- under 10
-				FaxCurAOP = ACAOPUnder10
-				SetMapName("RP : " .. FaxCurAOP)
-				TriggerEvent("AOP:Sync")
-			elseif players[a] < "20" then -- under 20
-				FaxCurAOP = ACAOPUnder20
-				SetMapName("RP : " .. FaxCurAOP)
-				TriggerEvent("AOP:Sync")
-			elseif players[a] < "30" then -- under 30
-				FaxCurAOP = ACAOPUnder30
-				SetMapName("RP : " .. FaxCurAOP)
-				TriggerEvent("AOP:Sync")
-			end
+		local plcount = 0
+
+		for _, player in pairs(players) do
+			plcount = plcount + 1
+		end
+
+		if plcount > 30 then -- over 30
+			FaxCurAOP = ACAOPOver30
+			SetMapName("RP : " .. FaxCurAOP)
+			TriggerEvent("AOP:Sync")
+		elseif plcount < 5 then -- under 5
+			FaxCurAOP = ACAOPUnder5
+			SetMapName("RP : " .. FaxCurAOP)
+			TriggerEvent("AOP:Sync")
+		elseif plcount < 10 then -- under 10
+			FaxCurAOP = ACAOPUnder10
+			SetMapName("RP : " .. FaxCurAOP)
+			TriggerEvent("AOP:Sync")
+		elseif plcount < 20 then -- under 20
+			FaxCurAOP = ACAOPUnder20
+			SetMapName("RP : " .. FaxCurAOP)
+			TriggerEvent("AOP:Sync")
+		elseif plcount < 30 then -- under 30
+			FaxCurAOP = ACAOPUnder30
+			SetMapName("RP : " .. FaxCurAOP)
+			TriggerEvent("AOP:Sync")
 		end
 		TriggerEvent("AOP:Sync")
 		Citizen.Wait(120 * 1000)
