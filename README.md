@@ -1,7 +1,9 @@
 ### 📠 [Area of Patrol][5mlink] 📠
 
-> **IMPORTANT**
-> Discord permissions currently dont work. use ACE permissions instead. Cheers 😤
+# Weblutions does not provide support for this script. All support is community based.
+
+# **IMPORTANT**
+# Discord permissions currently dont work. use ACE permissions instead. Cheers 😤
 
 
 [![Discord](https://faxes.zone/i/9wkr3.png)](https://faxes.zone/discord)
