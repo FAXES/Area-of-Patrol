@@ -20,16 +20,15 @@ function GetDiscordPermissionSet(src)
 		end
 
 		if identifierDiscord then
-			exports['discordroles']:isRolePresent(src, discordRoleIds, function(hasRole, roles)
-				if not roles then
-					return false
-				end
-				if hasRole then
-					return true
-				else
-					return false
-				end
-			end)
+			-- Using Badger Discord API instead
+			local hasRole = exports['Badger_Discord_API']:CheckEqual(src, discordRoleIds)
+
+			if hasRole then
+				return true
+			else
+				print("^1[Fax-AOP] Player does not have the required Discord role: " .. GetPlayerName(src) .. "^7")
+				return false
+			end
 		else
 			print("^1[Fax-AOP] No Discord ID found for '" .. GetPlayerName(src) .. "'^7")
 			return false
@@ -38,6 +37,7 @@ function GetDiscordPermissionSet(src)
 		return false
 	end
 end
+
 
 RegisterServerEvent('AOP:Startup')
 AddEventHandler('AOP:Startup', function()
